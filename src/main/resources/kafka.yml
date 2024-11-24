@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_URL_LIST:localhost:29092}
+    producer:
+      acks: ${KAFKA_PRODUCER_ACKS:1}
+      retries: ${KAFKA_PRODUCER_RETRIES:2}
+    consumer:
+      auto-offset-reset: ${KAFKA_CONSUMER_AUTO_OFFSET_RESET:earliest}
+      group-id: ${ENVIRONMENT_PREFIX:local}-${spring.application.name}
+      properties:
+        spring:
+          json:
+            trusted: # Данное свойство разрешает десереализацию всех классов.
+              packages: '*'
+
+kafka: # ENVIRONMENT_PREFIX in ['local-stand', 'dev', 'demo', 'test']
+  general-topic-name: ${ENVIRONMENT_PREFIX:local}-${spring.application.name}-topic
+  settings-default-topics:
+    - name: ${ENVIRONMENT_PREFIX:local}-${spring.application.name}-topic
